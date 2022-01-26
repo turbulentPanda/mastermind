@@ -57,3 +57,18 @@ require 'colorize'
 
 # puts instruction_message
 
+class MastermindGame
+  attr_accessor :attempts_remaining, :code
+
+  def initialize(code) 
+    self.attempts_remaining = 12
+    self.code = code.to_s.split("")
+  end
+
+
+end  
+
+game = MastermindGame.new(1234)
+puts game.attempts_remaining
+p game.code
+  
