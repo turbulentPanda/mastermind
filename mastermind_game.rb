@@ -65,10 +65,13 @@ class MastermindGame
     self.code = code.to_s.split("")
   end
 
-
+  def decrement_attempts_remaining
+    self.attempts_remaining -= 1
+  end
 end  
 
 game = MastermindGame.new(1234)
 puts game.attempts_remaining
-p game.code
+game.decrement_attempts_remaining
+puts game.attempts_remaining
   
