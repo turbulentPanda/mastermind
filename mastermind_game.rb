@@ -68,10 +68,16 @@ class MastermindGame
   def decrement_attempts_remaining
     self.attempts_remaining -= 1
   end
+
+  def game_over?
+    self.attempts_remaining <= 0
+  end
 end  
 
 game = MastermindGame.new(1234)
 puts game.attempts_remaining
-game.decrement_attempts_remaining
+puts game.game_over?
+12.times {game.decrement_attempts_remaining}
 puts game.attempts_remaining
+puts game.game_over?
   
