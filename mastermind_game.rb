@@ -62,7 +62,7 @@ class MastermindGame
 
   def initialize(code) 
     self.attempts_remaining = 12
-    self.code = code.to_s.split("")
+    self.code = code
   end
 
   def decrement_attempts_remaining
@@ -74,18 +74,34 @@ class MastermindGame
   end
 end  
 
-class CodeSetter 
+class CodeSetter
+  attr_accessor :code
   def initialize
   end
 
-  def generate_random_number(num)
-    rand(num + 1)
+  def generate_random_number_string(num)
+    rand(num + 1).to_s
   end
-end
-game = MastermindGame.new(1234)
-puts game.attempts_remaining
-puts game.game_over?
-12.times {game.decrement_attempts_remaining}
-puts game.attempts_remaining
-puts game.game_over?
+
+  def set_code
+    self.code = [
+      generate_random_number_string(7),
+      generate_random_number_string(7),
+      generate_random_number_string(7),
+      generate_random_number_string(7)
+    ]
+  end
+
   
+end
+
+# game = MastermindGame.new(1234)
+# puts game.attempts_remaining
+# puts game.game_over?
+# 12.times {game.decrement_attempts_remaining}
+# puts game.attempts_remaining
+# puts game.game_over?
+
+code_setter = CodeSetter.new
+code_setter.set_code
+p code_setter.code
