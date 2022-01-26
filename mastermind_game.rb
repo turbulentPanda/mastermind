@@ -74,6 +74,14 @@ class MastermindGame
   end
 end  
 
+class CodeSetter 
+  def initialize
+  end
+
+  def generate_random_number(num)
+    rand(num + 1)
+  end
+end
 game = MastermindGame.new(1234)
 puts game.attempts_remaining
 puts game.game_over?
