@@ -112,6 +112,11 @@ class CodeBreaker
   def guess_code
     puts "Please enter your guess: "
     guess = gets.chomp
+    until valid_code?(guess)
+      puts "Your guess must be 4 digits long and only contain digits 1-6. Please enter a new one: "
+      guess = gets.chomp
+    end
+    guess
   end
 
 end
@@ -121,8 +126,8 @@ game = MastermindGame.new(computer.set_random_code)
 p game.code
 
 
-# user = CodeBreaker.new
-# guess = user.guess_code
+user = CodeBreaker.new
+guess = user.guess_code
 # puts guess
 # puts user.valid_code?("1234")
 # puts user.valid_code?("6325")
