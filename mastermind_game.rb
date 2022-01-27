@@ -58,7 +58,7 @@ require 'colorize'
 # puts instruction_message
 
 class MastermindGame
-  attr_accessor :attempts_remaining, :code
+  attr_accessor :attempts_remaining, :code, :code_setter, :code_breaker
 
   def initialize(code) 
     self.attempts_remaining = 12
@@ -69,8 +69,12 @@ class MastermindGame
     self.attempts_remaining -= 1
   end
 
-  def game_over?
-    self.attempts_remaining <= 0
+  def correct_guess?(guess)
+    guess == self.code
+  end
+
+  def game_over?(guess)
+    self.attempts_remaining <= 0 || correct_guess?(guess)
   end
 end  
 
@@ -121,24 +125,30 @@ class CodeBreaker
 
 end
 
-computer = CodeSetter.new
-game = MastermindGame.new(computer.set_random_code)
-p game.code
+def play_game
+  code_setter = CodeSetter.new
+  code_breaker = CodeBreaker.new
+  game = MastermindGame.new(code_setter.set_random_code)
+  game.code_setter = code_setter
+  game.code_breaker = code_breaker
+
+  guess = code_breaker.guess_code
+  game.decrement_attempts_remaining
+  until game.game_over?(guess)
+    puts "Sorry, that is not the code!"
+    puts "You have #{game.attempts_remaining} attempts left."
+    guess = code_breaker.guess_code
+    game.decrement_attempts_remaining
+  end
+  if game.correct_guess?(guess)
+    puts "Congratulations! You guessed the code!"
+  else
+    puts "Sorry, you lost! The correct code was #{game.code.join("")}"
+  end
+end
+
+play_game
 
 
-user = CodeBreaker.new
-guess = user.guess_code
-# puts guess
-# puts user.valid_code?("1234")
-# puts user.valid_code?("6325")
-# puts user.valid_code?("123")
-# puts user.valid_code?("45636")
-# puts user.valid_code?("1273")
 
-# game = MastermindGame.new(1234)
-# puts game.attempts_remaining
-# puts game.game_over?
-# 12.times {game.decrement_attempts_remaining}
-# puts game.attempts_remaining
-# puts game.game_over?
 
