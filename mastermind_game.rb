@@ -97,21 +97,38 @@ class CodeBreaker
   def initialize
   end
 
+  def valid_code_length?(code)
+    code.length == 4
+  end
+
+  def valid_code_numbers?(code)
+    code.split("").all? { |num| "123456".include?(num)}
+  end
+
+  def valid_code?(code)
+    valid_code_length?(code) && valid_code_numbers?(code)
+  end
+
   def guess_code
     puts "Please enter your guess: "
     guess = gets.chomp
   end
 
-  
 end
 
 computer = CodeSetter.new
 game = MastermindGame.new(computer.set_random_code)
 p game.code
 
+
 # user = CodeBreaker.new
 # guess = user.guess_code
 # puts guess
+# puts user.valid_code?("1234")
+# puts user.valid_code?("6325")
+# puts user.valid_code?("123")
+# puts user.valid_code?("45636")
+# puts user.valid_code?("1273")
 
 # game = MastermindGame.new(1234)
 # puts game.attempts_remaining
