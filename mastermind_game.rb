@@ -83,7 +83,7 @@ class CodeSetter
     rand(num + 1).to_s
   end
 
-  def set_code
+  def set_random_code
     self.code = [
       generate_random_number_string(7),
       generate_random_number_string(7),
@@ -91,9 +91,27 @@ class CodeSetter
       generate_random_number_string(7)
     ]
   end
+end
+
+class CodeBreaker
+  def initialize
+  end
+
+  def guess_code
+    puts "Please enter your guess: "
+    guess = gets.chomp
+  end
 
   
 end
+
+computer = CodeSetter.new
+game = MastermindGame.new(computer.set_random_code)
+p game.code
+
+# user = CodeBreaker.new
+# guess = user.guess_code
+# puts guess
 
 # game = MastermindGame.new(1234)
 # puts game.attempts_remaining
@@ -102,6 +120,3 @@ end
 # puts game.attempts_remaining
 # puts game.game_over?
 
-code_setter = CodeSetter.new
-code_setter.set_code
-p code_setter.code
