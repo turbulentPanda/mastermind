@@ -144,6 +144,9 @@ def play_game
   game.code_breaker = CodeBreaker.new
   game.code = game.code_setter.set_random_code
 
+  
+  # Extract the following code into a MsatermindGame instance method
+  # Use that method as the argument for lputs game.display_game_results(guess)
   guess = game.play_one_turn
   until game.game_over?(guess)
     puts "Sorry, that is not the code!"
