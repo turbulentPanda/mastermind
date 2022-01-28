@@ -81,6 +81,16 @@ class MastermindGame
     self.attempts_remaining <= 0 || correct_guess?(guess)
   end
 
+  def play_entire_game
+    guess = self.play_one_turn
+    until self.game_over?(guess)
+      puts "Sorry, that is not the code!"
+      puts "You have #{self.attempts_remaining} attempts left."
+      guess = self.play_one_turn
+    end
+    guess
+  end
+
   def display_game_results(guess)
     if self.correct_guess?(guess)
       return "Congratulations! You guessed the code!"
@@ -143,18 +153,7 @@ def play_game
   game.code_setter = CodeSetter.new
   game.code_breaker = CodeBreaker.new
   game.code = game.code_setter.set_random_code
-
-  
-  # Extract the following code into a MsatermindGame instance method
-  # Use that method as the argument for lputs game.display_game_results(guess)
-  guess = game.play_one_turn
-  until game.game_over?(guess)
-    puts "Sorry, that is not the code!"
-    puts "You have #{game.attempts_remaining} attempts left."
-    guess = game.play_one_turn
-  end
-
-  puts game.display_game_results(guess)
+  puts game.display_game_results(game.play_entire_game)
 end
 
 play_game
