@@ -60,9 +60,8 @@ require 'colorize'
 class MastermindGame
   attr_accessor :attempts_remaining, :code, :code_setter, :code_breaker
 
-  def initialize(code) 
+  def initialize() 
     self.attempts_remaining = 12
-    self.code = code
   end
 
   def decrement_attempts_remaining
@@ -75,6 +74,11 @@ class MastermindGame
 
   def game_over?(guess)
     self.attempts_remaining <= 0 || correct_guess?(guess)
+  end
+
+  def play_one_turn
+    self.decrement_attempts_remaining
+    guess = code_breaker.guess_code
   end
 end  
 
@@ -126,19 +130,18 @@ class CodeBreaker
 end
 
 def play_game
-  code_setter = CodeSetter.new
-  code_breaker = CodeBreaker.new
-  game = MastermindGame.new(code_setter.set_random_code)
-  game.code_setter = code_setter
-  game.code_breaker = code_breaker
+  # code_setter = CodeSetter.new
+  # code_breaker = CodeBreaker.new
+  game = MastermindGame.new
+  game.code_setter = CodeSetter.new
+  game.code_breaker = CodeBreaker.new
+  game.code = game.code_setter.set_random_code
 
-  guess = code_breaker.guess_code
-  game.decrement_attempts_remaining
+  guess = game.play_one_turn
   until game.game_over?(guess)
     puts "Sorry, that is not the code!"
     puts "You have #{game.attempts_remaining} attempts left."
-    guess = code_breaker.guess_code
-    game.decrement_attempts_remaining
+    guess = game.play_one_turn
   end
   if game.correct_guess?(guess)
     puts "Congratulations! You guessed the code!"
