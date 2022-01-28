@@ -68,6 +68,11 @@ class MastermindGame
     self.attempts_remaining -= 1
   end
 
+  def play_one_turn
+    self.decrement_attempts_remaining
+    guess = code_breaker.guess_code
+  end
+
   def correct_guess?(guess)
     guess == self.code
   end
@@ -76,10 +81,14 @@ class MastermindGame
     self.attempts_remaining <= 0 || correct_guess?(guess)
   end
 
-  def play_one_turn
-    self.decrement_attempts_remaining
-    guess = code_breaker.guess_code
+  def display_game_results(guess)
+    if self.correct_guess?(guess)
+      return "Congratulations! You guessed the code!"
+    else
+      return "Sorry, you lost! The correct code was #{self.code.join("")}"
+    end
   end
+
 end  
 
 class CodeSetter
@@ -130,8 +139,6 @@ class CodeBreaker
 end
 
 def play_game
-  # code_setter = CodeSetter.new
-  # code_breaker = CodeBreaker.new
   game = MastermindGame.new
   game.code_setter = CodeSetter.new
   game.code_breaker = CodeBreaker.new
@@ -143,11 +150,8 @@ def play_game
     puts "You have #{game.attempts_remaining} attempts left."
     guess = game.play_one_turn
   end
-  if game.correct_guess?(guess)
-    puts "Congratulations! You guessed the code!"
-  else
-    puts "Sorry, you lost! The correct code was #{game.code.join("")}"
-  end
+
+  puts game.display_game_results(guess)
 end
 
 play_game
