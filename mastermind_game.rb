@@ -1,6 +1,6 @@
-require 'colorize'
-
 module Clueable
+  require 'colorize'
+
   NUMBERS = [
     "#{'  1  '.colorize(:color => :black, :background => :red)}",
     "#{'  2  '.colorize(:color => :black, :background => :yellow)}",
@@ -16,11 +16,6 @@ module Clueable
     incorrect_number: "\u2613".colorize(:red)
   }
 end
-
-
-
-
-
 
 welcome_message = 
   "Welcome to Mastermind!\n\n"\
@@ -59,8 +54,6 @@ instruction_message =
   "#{Clueable::NUMBERS[4]}"\
   "#{Clueable::NUMBERS[3]}\n\n"\
   "Clue: #{Clueable::CLUE_SYMBOLS[:correct_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_number]}"
-
-
 
 # puts instruction_message
 
@@ -164,7 +157,3 @@ def play_game
 end
 
 play_game
-
-
-
-
