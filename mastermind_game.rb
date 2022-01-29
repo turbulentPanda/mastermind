@@ -11,9 +11,9 @@ module Clueable
   ]
 
   CLUE_SYMBOLS = {
-    correct_spot: "\u2605".colorize(:green),
-    incorrect_spot: "\u25CF".colorize(:yellow),
-    incorrect_number: "\u2613".colorize(:red)
+    correct_spot: " #{"\u2605".colorize(:green)}",
+    incorrect_spot: " #{"\u25CF".colorize(:yellow)}",
+    incorrect_number: " #{"\u2613".colorize(:red)}"
   }
 end
 
@@ -103,6 +103,8 @@ end
 
 class CodeSetter
   attr_accessor :code
+  include Clueable
+
   def initialize
   end
 
@@ -117,6 +119,19 @@ class CodeSetter
       generate_random_number_string(7),
       generate_random_number_string(7)
     ]
+  end
+
+  def give_clue(code, guess)
+    clue = guess.split("").map.with_index do |digit, index|
+      if digit == code[index]
+        CLUE_SYMBOLS[:correct_spot]
+      elsif code.include?(digit)
+        CLUE_SYMBOLS[:incorrect_spot]
+      else
+        CLUE_SYMBOLS[:incorrect_number]
+      end
+    end
+    clue.join("")
   end
 end
 
@@ -156,4 +171,4 @@ def play_game
   puts game.display_game_results(game.play_entire_game)
 end
 
-play_game
+# play_game
