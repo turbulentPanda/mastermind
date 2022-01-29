@@ -76,7 +76,7 @@ class MastermindGame
   end
 
   def correct_guess?(guess)
-    guess == self.code
+    guess == self.code.join("")
   end
 
   def game_over?(guess)
