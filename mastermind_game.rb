@@ -71,6 +71,8 @@ class MastermindGame
   def play_one_turn
     self.decrement_attempts_remaining
     guess = code_breaker.guess_code
+    puts code_setter.give_clue(self.code, guess)
+    guess
   end
 
   def correct_guess?(guess)
@@ -109,15 +111,15 @@ class CodeSetter
   end
 
   def generate_random_number_string(num)
-    rand(num + 1).to_s
+    rand(1..6).to_s
   end
 
   def set_random_code
     self.code = [
-      generate_random_number_string(7),
-      generate_random_number_string(7),
-      generate_random_number_string(7),
-      generate_random_number_string(7)
+      generate_random_number_string(6),
+      generate_random_number_string(6),
+      generate_random_number_string(6),
+      generate_random_number_string(6)
     ]
   end
 
@@ -171,4 +173,4 @@ def play_game
   puts game.display_game_results(game.play_entire_game)
 end
 
-# play_game
+play_game
