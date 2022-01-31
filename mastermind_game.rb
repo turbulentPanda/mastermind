@@ -19,7 +19,22 @@ module Clueable
   def self.colorize_number(num)
     NUMBERS[num.to_i - 1]
   end
+
+  def self.valid_code_length?(code)
+    code.length == 4
+  end
+
+  def self.valid_code_numbers?(code)
+    code.split("").all? { |num| "123456".include?(num)}
+  end
+
+  def self.valid_code?(code)
+    valid_code_length?(code) && valid_code_numbers?(code)
+  end
+
 end
+
+
 
 welcome_message = "Welcome to Mastermind!\n\n"\
   "Mastermind is a code-breaking game that you will play against the computer.\n"\
@@ -150,9 +165,15 @@ class ComputerCodeSetter < CodeSetter
 end
 
 class UserCodeSetter < CodeSetter
+  include Clueable
   def set_code
     puts "Please enter a 4-digit code using the digits 1-6"
-    code = gets.chomp.split("")
+    code = gets.chomp
+    until Clueable.valid_code?(code)
+      puts "You must enter a 4-digit code using only digits 1-6. Please enter a new one: ".colorize(:red)
+      code = gets.chomp
+    end
+    code.split("")
   end
 end
 
@@ -161,20 +182,21 @@ p user.set_code
 
 
 class CodeBreaker
+  include Clueable
   def initialize
   end
 
-  def valid_code_length?(code)
-    code.length == 4
-  end
+  # def valid_code_length?(code)
+  #   code.length == 4
+  # end
 
-  def valid_code_numbers?(code)
-    code.split("").all? { |num| "123456".include?(num)}
-  end
+  # def valid_code_numbers?(code)
+  #   code.split("").all? { |num| "123456".include?(num)}
+  # end
 
-  def valid_code?(code)
-    valid_code_length?(code) && valid_code_numbers?(code)
-  end
+  # def valid_code?(code)
+  #   valid_code_length?(code) && valid_code_numbers?(code)
+  # end
 
   # def guess_code
   #   puts "Please enter your guess: "
@@ -191,13 +213,14 @@ class UserCodeBreaker < CodeBreaker
   def guess_code
     puts "Please enter your guess: "
     guess = gets.chomp
-    until valid_code?(guess)
+    until Clueable.valid_code?(guess)
       puts "Your guess must be 4 digits long and only contain digits 1-6. Please enter a new one: ".colorize(:red)
       guess = gets.chomp
     end
     guess
   end
 end
+
 
 class ComputerCodeBreaker < CodeBreaker
   def guess_code
