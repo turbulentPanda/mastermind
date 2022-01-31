@@ -53,7 +53,7 @@ instruction_message =
   "#{Clueable::NUMBERS[4]}"\
   "#{Clueable::NUMBERS[3]}\n\n"\
   "Clue: #{Clueable::CLUE_SYMBOLS[:incorrect_number]} #{Clueable::CLUE_SYMBOLS[:correct_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]}\n\n"\
-  "NOTE: the order of clues does NOT necessarily correspond to the order of numbers in the code.\n\n"
+  "NOTE: the order of clues does NOT necessarily correspond to the order of numbers in the guess.\n\n"
 
 puts instruction_message
 
