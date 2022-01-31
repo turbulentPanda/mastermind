@@ -182,6 +182,12 @@ class UserCodeBreaker < CodeBreaker
   end
 end
 
+class ComputerCodeBreaker < CodeBreaker
+  def guess_code
+    Array.new(4).map {|digit| rand(1..6).to_s}
+  end
+end
+
 def play_game
   game = MastermindGame.new
   game.code_setter = CodeSetter.new
@@ -191,4 +197,4 @@ def play_game
   puts game.display_game_results(game.play_entire_game)
 end
 
-play_game
+# play_game
