@@ -159,6 +159,18 @@ class CodeBreaker
     valid_code_length?(code) && valid_code_numbers?(code)
   end
 
+  # def guess_code
+  #   puts "Please enter your guess: "
+  #   guess = gets.chomp
+  #   until valid_code?(guess)
+  #     puts "Your guess must be 4 digits long and only contain digits 1-6. Please enter a new one: ".colorize(:red)
+  #     guess = gets.chomp
+  #   end
+  #   guess
+  # end
+end
+
+class UserCodeBreaker < CodeBreaker
   def guess_code
     puts "Please enter your guess: "
     guess = gets.chomp
@@ -168,7 +180,6 @@ class CodeBreaker
     end
     guess
   end
-
 end
 
 def play_game
