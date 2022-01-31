@@ -116,18 +116,18 @@ class CodeSetter
   def initialize
   end
 
-  def generate_random_number_string(num)
-    rand(1..6).to_s
-  end
+  # def generate_random_number_string(num)
+  #   rand(1..6).to_s
+  # end
 
-  def set_random_code
-    self.code = [
-      generate_random_number_string(6),
-      generate_random_number_string(6),
-      generate_random_number_string(6),
-      generate_random_number_string(6)
-    ]
-  end
+  # def set_code
+  #   self.code = [
+  #     generate_random_number_string(6),
+  #     generate_random_number_string(6),
+  #     generate_random_number_string(6),
+  #     generate_random_number_string(6)
+  #   ]
+  # end
 
   def give_clue(code, guess)
     clue = guess.split("").map.with_index do |digit, index|
@@ -142,6 +142,23 @@ class CodeSetter
     clue.sort.join("")
   end
 end
+
+class ComputerCodeSetter < CodeSetter
+  def set_code
+    Array.new(4).map { |spot| rand(1..6).to_s}
+  end
+end
+
+class UserCodeSetter < CodeSetter
+  def set_code
+    puts "Please enter a 4-digit code using the digits 1-6"
+    code = gets.chomp.split("")
+  end
+end
+
+user = UserCodeSetter.new
+p user.set_code
+
 
 class CodeBreaker
   def initialize
@@ -192,7 +209,7 @@ def play_game
   game = MastermindGame.new
   game.code_setter = CodeSetter.new
   game.code_breaker = CodeBreaker.new
-  game.code = game.code_setter.set_random_code
+  game.code = game.code_setter.set_code
   puts "The computer has chosen a code. Now try to guess it!"
   puts game.display_game_results(game.play_entire_game)
 end
