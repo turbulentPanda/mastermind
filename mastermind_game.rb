@@ -34,48 +34,6 @@ module Clueable
 
 end
 
-
-
-welcome_message = "Welcome to Mastermind!\n\n"\
-  "Mastermind is a code-breaking game that you will play against the computer.\n"\
-  "Read on to learn the rules and play a game!\n\n"
-
-puts welcome_message
-
-instruction_message =
-  "#{'How to Play Mastermind'.underline}:\n\n"\
-  "Here, Mastermind is a 1-player terminal-based game in which you will play against the computer.\n"\
-  "You are the code-#{'breaker'.underline}. The computer is the code-#{'maker'.underline}.\n\n"\
-  "There are 6 possible numbers (1-6), each with a unique color: \n\n"\
-  "#{Clueable::NUMBERS[0]}"\
-  "#{Clueable::NUMBERS[1]}"\
-  "#{Clueable::NUMBERS[2]}"\
-  "#{Clueable::NUMBERS[3]}"\
-  "#{Clueable::NUMBERS[4]}"\
-  "#{Clueable::NUMBERS[5]}\n\n"\
-  "The coder-maker will generate a 4 digit (color) code using these 6 choices.\n"\
-  "Note: repeated numbers/colors are allowed. For example:\n\n"\
-  "#{'Code'.bold}: "\
-  "#{Clueable::NUMBERS[0]}"\
-  "#{Clueable::NUMBERS[4]}"\
-  "#{Clueable::NUMBERS[0]}"\
-  "#{Clueable::NUMBERS[2]}\n\n"\
-  "To win the game, the code-breaker must guess the code in, at most, 12 attempts.\n\n"\
-  "After every guess, the code-maker will give clues to help crack the code:\n\n"\
-  "#{Clueable::CLUE_SYMBOLS[:correct_spot]} This clue corresponds to a number in the correct spot\n"\
-  "#{Clueable::CLUE_SYMBOLS[:incorrect_spot]} This clue corresponds to a number in the code but in an incorrect spot\n"\
-  "#{Clueable::CLUE_SYMBOLS[:incorrect_number]} This clue corresponds to a number that is #{"not".underline} in the code.\n\n"\
-  "For example, using the above code, the following guess would generate this clue:\n\n"\
-  "Guess: "\
-  "#{Clueable::NUMBERS[0]}"\
-  "#{Clueable::NUMBERS[0]}"\
-  "#{Clueable::NUMBERS[4]}"\
-  "#{Clueable::NUMBERS[3]}\n\n"\
-  "Clue: #{Clueable::CLUE_SYMBOLS[:incorrect_number]} #{Clueable::CLUE_SYMBOLS[:correct_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]}\n\n"\
-  "NOTE: the order of clues does NOT necessarily correspond to the order of numbers in the guess.\n\n"
-
-puts instruction_message
-
 class MastermindGame
   include Clueable
   attr_accessor :attempts_remaining, :code, :code_setter, :code_breaker
@@ -182,7 +140,6 @@ class UserCodeBreaker < CodeBreaker
   end
 end
 
-
 class ComputerCodeBreaker < CodeBreaker
   def guess_code
     guess = Array.new(4).map {|digit| rand(1..6).to_s}.join("")
@@ -193,7 +150,7 @@ end
 
 def play_game
   game = MastermindGame.new
-  puts "Enter 1 to be the code-breaker. Enter 2 to be the code-setter."
+  puts "Enter 1 to be the code-breaker. Enter any other key to be the code-setter."
   decision_maker = gets.chomp.to_i
   if decision_maker == 1
     game.code_setter = ComputerCodeSetter.new
@@ -208,4 +165,50 @@ def play_game
   puts game.display_game_results(game.play_entire_game)
 end
 
-play_game
+welcome_message = "Welcome to Mastermind!\n\n"\
+  "Mastermind is a code-breaking game that you will play against the computer.\n"\
+  "Read on to learn the rules and play a game!\n\n"
+
+puts welcome_message
+
+instruction_message =
+  "#{'How to Play Mastermind'.underline}:\n\n"\
+  "Here, Mastermind is a 1-player terminal-based game in which you will play against the computer.\n"\
+  "You are the code-#{'breaker'.underline}. The computer is the code-#{'maker'.underline}.\n\n"\
+  "There are 6 possible numbers (1-6), each with a unique color: \n\n"\
+  "#{Clueable::NUMBERS[0]}"\
+  "#{Clueable::NUMBERS[1]}"\
+  "#{Clueable::NUMBERS[2]}"\
+  "#{Clueable::NUMBERS[3]}"\
+  "#{Clueable::NUMBERS[4]}"\
+  "#{Clueable::NUMBERS[5]}\n\n"\
+  "The coder-maker will generate a 4 digit (color) code using these 6 choices.\n"\
+  "Note: repeated numbers/colors are allowed. For example:\n\n"\
+  "#{'Code'.bold}: "\
+  "#{Clueable::NUMBERS[0]}"\
+  "#{Clueable::NUMBERS[4]}"\
+  "#{Clueable::NUMBERS[0]}"\
+  "#{Clueable::NUMBERS[2]}\n\n"\
+  "To win the game, the code-breaker must guess the code in, at most, 12 attempts.\n\n"\
+  "After every guess, the code-maker will give clues to help crack the code:\n\n"\
+  "#{Clueable::CLUE_SYMBOLS[:correct_spot]} This clue corresponds to a number in the correct spot\n"\
+  "#{Clueable::CLUE_SYMBOLS[:incorrect_spot]} This clue corresponds to a number in the code but in an incorrect spot\n"\
+  "#{Clueable::CLUE_SYMBOLS[:incorrect_number]} This clue corresponds to a number that is #{"not".underline} in the code.\n\n"\
+  "For example, using the above code, the following guess would generate this clue:\n\n"\
+  "Guess: "\
+  "#{Clueable::NUMBERS[0]}"\
+  "#{Clueable::NUMBERS[0]}"\
+  "#{Clueable::NUMBERS[4]}"\
+  "#{Clueable::NUMBERS[3]}\n\n"\
+  "Clue: #{Clueable::CLUE_SYMBOLS[:incorrect_number]} #{Clueable::CLUE_SYMBOLS[:correct_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]}\n\n"\
+  "NOTE: the order of clues does NOT necessarily correspond to the order of numbers in the guess.\n\n"
+
+puts instruction_message
+
+puts "Would you like to play a round of Mastermind? (y/n)"
+initiate_game = gets.chomp
+until initiate_game == "n"
+  play_game
+  puts "Would you like to play again? (y/n)"
+  initiate_game = gets.chomp
+end
