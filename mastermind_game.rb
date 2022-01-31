@@ -15,6 +15,10 @@ module Clueable
     incorrect_spot: " #{"\u25CF".colorize(:yellow)}",
     incorrect_number: " #{"\u2613".colorize(:red)}"
   }
+
+  def self.colorize_number(num)
+    NUMBERS[num.to_i - 1]
+  end
 end
 
 welcome_message = "Welcome to Mastermind!\n\n"\
@@ -58,6 +62,7 @@ instruction_message =
 puts instruction_message
 
 class MastermindGame
+  include Clueable
   attr_accessor :attempts_remaining, :code, :code_setter, :code_breaker
 
   def initialize() 
@@ -71,7 +76,8 @@ class MastermindGame
   def play_one_turn
     self.decrement_attempts_remaining
     guess = code_breaker.guess_code
-    puts code_setter.give_clue(self.code, guess)
+    colorized_guess = guess.split("").map {|digit| Clueable.colorize_number(digit)}.join(" ")
+    puts "\n #{colorized_guess}    Clue: #{code_setter.give_clue(self.code, guess)} \n\n"
     guess
   end
 
@@ -86,8 +92,8 @@ class MastermindGame
   def play_entire_game
     guess = self.play_one_turn
     until self.game_over?(guess)
-      puts "Sorry, that is not the code!"
-      puts "You have #{self.attempts_remaining} attempts left."
+      puts "Sorry, that is not the code! "\
+           "You have #{self.attempts_remaining} attempts left.\n\n"
       guess = self.play_one_turn
     end
     guess
@@ -170,6 +176,7 @@ def play_game
   game.code_setter = CodeSetter.new
   game.code_breaker = CodeBreaker.new
   game.code = game.code_setter.set_random_code
+  puts "The computer has chosen a code. Now try to guess it!"
   puts game.display_game_results(game.play_entire_game)
 end
 
