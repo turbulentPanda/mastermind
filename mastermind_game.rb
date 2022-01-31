@@ -1,5 +1,5 @@
+require 'colorize'
 module Clueable
-  require 'colorize'
 
   NUMBERS = [
     "#{'  1  '.colorize(:color => :black, :background => :red)}",
@@ -157,7 +157,7 @@ class CodeBreaker
     puts "Please enter your guess: "
     guess = gets.chomp
     until valid_code?(guess)
-      puts "Your guess must be 4 digits long and only contain digits 1-6. Please enter a new one: "
+      puts "Your guess must be 4 digits long and only contain digits 1-6. Please enter a new one: ".colorize(:red)
       guess = gets.chomp
     end
     guess
