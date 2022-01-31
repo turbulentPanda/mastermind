@@ -17,12 +17,11 @@ module Clueable
   }
 end
 
-welcome_message = 
-  "Welcome to Mastermind!\n\n"\
+welcome_message = "Welcome to Mastermind!\n\n"\
   "Mastermind is a code-breaking game that you will play against the computer.\n"\
   "Read on to learn the rules and play a game!\n\n"
 
-# puts welcome_message
+puts welcome_message
 
 instruction_message =
   "#{'How to Play Mastermind'.underline}:\n\n"\
@@ -53,9 +52,10 @@ instruction_message =
   "#{Clueable::NUMBERS[0]}"\
   "#{Clueable::NUMBERS[4]}"\
   "#{Clueable::NUMBERS[3]}\n\n"\
-  "Clue: #{Clueable::CLUE_SYMBOLS[:correct_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_number]}"
+  "Clue: #{Clueable::CLUE_SYMBOLS[:incorrect_number]} #{Clueable::CLUE_SYMBOLS[:correct_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]} #{Clueable::CLUE_SYMBOLS[:incorrect_spot]}\n\n"\
+  "NOTE: the order of clues does NOT necessarily correspond to the order of numbers in the code.\n\n"
 
-# puts instruction_message
+puts instruction_message
 
 class MastermindGame
   attr_accessor :attempts_remaining, :code, :code_setter, :code_breaker
@@ -133,7 +133,7 @@ class CodeSetter
         CLUE_SYMBOLS[:incorrect_number]
       end
     end
-    clue.join("")
+    clue.sort.join("")
   end
 end
 
