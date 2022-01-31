@@ -131,19 +131,6 @@ class CodeSetter
   def initialize
   end
 
-  # def generate_random_number_string(num)
-  #   rand(1..6).to_s
-  # end
-
-  # def set_code
-  #   self.code = [
-  #     generate_random_number_string(6),
-  #     generate_random_number_string(6),
-  #     generate_random_number_string(6),
-  #     generate_random_number_string(6)
-  #   ]
-  # end
-
   def give_clue(code, guess)
     clue = guess.split("").map.with_index do |digit, index|
       if digit == code[index]
@@ -177,36 +164,10 @@ class UserCodeSetter < CodeSetter
   end
 end
 
-user = UserCodeSetter.new
-p user.set_code
-
-
 class CodeBreaker
   include Clueable
   def initialize
   end
-
-  # def valid_code_length?(code)
-  #   code.length == 4
-  # end
-
-  # def valid_code_numbers?(code)
-  #   code.split("").all? { |num| "123456".include?(num)}
-  # end
-
-  # def valid_code?(code)
-  #   valid_code_length?(code) && valid_code_numbers?(code)
-  # end
-
-  # def guess_code
-  #   puts "Please enter your guess: "
-  #   guess = gets.chomp
-  #   until valid_code?(guess)
-  #     puts "Your guess must be 4 digits long and only contain digits 1-6. Please enter a new one: ".colorize(:red)
-  #     guess = gets.chomp
-  #   end
-  #   guess
-  # end
 end
 
 class UserCodeBreaker < CodeBreaker
@@ -224,17 +185,27 @@ end
 
 class ComputerCodeBreaker < CodeBreaker
   def guess_code
-    Array.new(4).map {|digit| rand(1..6).to_s}
+    guess = Array.new(4).map {|digit| rand(1..6).to_s}.join("")
+    sleep(1)
+    guess
   end
 end
 
 def play_game
   game = MastermindGame.new
-  game.code_setter = CodeSetter.new
-  game.code_breaker = CodeBreaker.new
-  game.code = game.code_setter.set_code
-  puts "The computer has chosen a code. Now try to guess it!"
+  puts "Enter 1 to be the code-breaker. Enter 2 to be the code-setter."
+  decision_maker = gets.chomp.to_i
+  if decision_maker == 1
+    game.code_setter = ComputerCodeSetter.new
+    game.code_breaker = UserCodeBreaker.new
+    game.code = game.code_setter.set_code
+    puts "The computer has chosen a code. Try to guess it!"
+  else
+    game.code_setter = UserCodeSetter.new
+    game.code_breaker = ComputerCodeBreaker.new
+    game.code = game.code_setter.set_code
+  end
   puts game.display_game_results(game.play_entire_game)
 end
 
-# play_game
+play_game
